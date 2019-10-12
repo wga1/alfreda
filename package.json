@@ -22,12 +22,14 @@
     "homepage": "https://github.com/wga1/alfreda#readme",
     "devDependencies": {
         "@types/dotenv": "^6.1.1",
+        "@types/lowdb": "^1.0.9",
         "@types/node": "^12.7.12",
         "tslint": "^5.20.0",
         "typescript": "^3.6.4"
     },
     "dependencies": {
         "dotenv": "^8.1.0",
+        "lowdb": "^1.0.0",
         "telegraf": "^3.32.0"
     },
     "pkg": {
