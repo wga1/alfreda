@@ -1,0 +1,36 @@
+{
+    "name": "alfreda",
+    "version": "0.1.0",
+    "description": "Simple telegram bot to keep the flat (and mates) under control.",
+    "main": "dist/alfreda.js",
+    "scripts": {
+        "start": "npm run build-ts && node dist/app.js",
+        "build": "npm run build-ts && npm run tslint",
+        "build-ts": "tsc",
+        "tslint": "tslint -c tslint.json -p tsconfig.json",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wga1/alfreda.git"
+    },
+    "author": "Vitus Lehner",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/wga1/alfreda/issues"
+    },
+    "homepage": "https://github.com/wga1/alfreda#readme",
+    "devDependencies": {
+        "@types/dotenv": "^6.1.1",
+        "@types/node": "^12.7.12",
+        "tslint": "^5.20.0",
+        "typescript": "^3.6.4"
+    },
+    "dependencies": {
+        "dotenv": "^8.1.0"
+    },
+    "pkg": {
+        "scripts": "dist/**/*.js"
+    },
+    "bin": "dist/app.js"
+}
