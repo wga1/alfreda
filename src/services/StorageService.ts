@@ -1,10 +1,11 @@
-import lowDb from "lowdb";
+import lowDb, { AdapterSync } from "lowdb";
 import LowDbFileSyncAdapter from "lowdb/adapters/FileSync";
+import { RootDb } from "RootDb";
 
 class StorageService {
     private storageFile: string;
-    private lowDbAdapter;
-    private lowDb;
+    private lowDbAdapter: AdapterSync;
+    private lowDb: lowDb.LowdbSync<RootDb>;
 
     constructor(storageFile: string) {
         this.storageFile = storageFile;

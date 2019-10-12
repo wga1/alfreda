@@ -1,0 +1,1 @@
+export const STORAGE_FILE: string = "./data_store.json";
