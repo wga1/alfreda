@@ -4,7 +4,8 @@
     "description": "Simple telegram bot to keep the flat (and mates) under control.",
     "main": "dist/alfreda.js",
     "scripts": {
-        "start": "npm run build-ts && node dist/app.js",
+        "start": "node dist/alfreda.js",
+        "prestart": "npm run build-ts",
         "build": "npm run build-ts && npm run tslint",
         "build-ts": "tsc",
         "tslint": "tslint -c tslint.json -p tsconfig.json",
@@ -30,6 +31,7 @@
     "dependencies": {
         "dotenv": "^8.1.0",
         "lowdb": "^1.0.0",
+        "query-string": "^6.8.3",
         "telegraf": "^3.32.0"
     },
     "pkg": {
