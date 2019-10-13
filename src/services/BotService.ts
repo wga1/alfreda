@@ -1,4 +1,4 @@
-import { CommandOption } from "CommandOption";
+import { CallbackOption } from "CallbackOption";
 import { Context } from "Context";
 import { isBotCommand, isUserMentioned } from "../utils/telegrafUtils";
 import Telegraf, { ContextMessageUpdate } from "telegraf";
@@ -59,7 +59,7 @@ export class BotService {
         ctx.reply(text, replyOptions);
     }
 
-    replyToWithCallbackOptions(context: Context, text: string, options: CommandOption[]) {
+    replyToWithCallbackOptions(context: Context, text: string, options: CallbackOption[]) {
         const { telegrafCtx: ctx } = context;
         const { message, callbackQuery } = ctx;
 

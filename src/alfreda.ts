@@ -7,7 +7,7 @@
 import { config } from "dotenv";
 import Telegraf from "telegraf";
 import { BotService } from "./services/BotService";
-import { CommandOption } from "CommandOption";
+import { CallbackOption } from "CallbackOption";
 import { parseQuery } from "./utils/queryUtils";
 import { RosterTypes } from "./types/RosterTypes";
 
@@ -19,7 +19,7 @@ const botService = new BotService(TELEGRAM_API_TOKEN);
 
 botService.onMention({
     handle: context => {
-        const options: CommandOption[] = [
+        const options: CallbackOption[] = [
             { text: "I completed a duty.", data: "cmd=done" },
             { text: "I payed sth.", data: "cmd=payed" }
         ];
@@ -43,7 +43,7 @@ botService.onCallback({
         }
 
         if (params.cmd === "done" && !params.item) {
-            const options: CommandOption[] = Object.values(RosterTypes).map(t => ({
+            const options: CallbackOption[] = Object.values(RosterTypes).map(t => ({
                 text: t,
                 data: `cmd=done&item=${t}`
             }));
