@@ -1,7 +1,7 @@
-import { RosterTypes } from "RosterTypes";
+import { RosterType } from "RosterType";
 
 export type Roster = {
-    type: RosterTypes;
+    type: RosterType;
     createdAt: Date;
     finishedAt: Date;
 };

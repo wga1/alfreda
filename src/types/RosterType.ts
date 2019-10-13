@@ -1,4 +1,4 @@
-export enum RosterTypes {
+export enum RosterType {
     CleanKitchen = "CLEAN_KITCHEN",
     CleanBathroom = "CLEAN_BATHROOM",
     CleanHallway = "CLEAN_HALLWAY",

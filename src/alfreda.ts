@@ -9,7 +9,7 @@ import Telegraf from "telegraf";
 import { BotService } from "./services/BotService";
 import { CallbackOption } from "CallbackOption";
 import { parseQuery } from "./utils/queryUtils";
-import { RosterTypes } from "./types/RosterTypes";
+import { RosterType } from "./types/RosterType";
 
 config();
 const TELEGRAM_API_TOKEN = process.env.TELEGRAM_BOT_API_TOKEN;
@@ -43,7 +43,7 @@ botService.onCallback({
         }
 
         if (params.cmd === "done" && !params.item) {
-            const options: CallbackOption[] = Object.values(RosterTypes).map(t => ({
+            const options: CallbackOption[] = Object.values(RosterType).map(t => ({
                 text: t,
                 data: `cmd=done&item=${t}`
             }));
