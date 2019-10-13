@@ -4,16 +4,15 @@
 // the project root for full license information.
 //
 
-import { config } from "dotenv";
-import Telegraf from "telegraf";
-import { BotService } from "./services/BotService";
 import { CallbackOption } from "CallbackOption";
-import { parseQuery } from "./utils/queryUtils";
+import { config } from "dotenv";
+import { BotService } from "./services/BotService";
 import { RosterType } from "./types/RosterType";
+import { parseQuery } from "./utils/queryUtils";
 
 config();
 const TELEGRAM_API_TOKEN = process.env.TELEGRAM_BOT_API_TOKEN;
-console.log(TELEGRAM_API_TOKEN);
+console.log("TOKEN", TELEGRAM_API_TOKEN);
 
 const botService = new BotService(TELEGRAM_API_TOKEN);
 
