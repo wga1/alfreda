@@ -1,4 +1,4 @@
-import { RosterType } from "RosterType";
+import { RosterType } from "./RosterType";
 
 export type Roster = {
     type: RosterType;

@@ -36,3 +36,13 @@ export function isUserMentioned(message: Message, username: string) {
     }
     return false;
 }
+
+export function findBotCommand(message: Message) {
+    const entity = getMessageEntity(message, "bot_command");
+
+    if (!entity) {
+        return undefined;
+    }
+
+    return message.text.substr(entity.offset, entity.length);
+}

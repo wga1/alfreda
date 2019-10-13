@@ -5,4 +5,5 @@ export type Context = {
     text?: string;
     callbackData?: string;
     answerCallback?: (text?: string) => void;
+    command?: string;
 };

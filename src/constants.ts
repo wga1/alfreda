@@ -1,5 +1,5 @@
-import { RosterType } from "RosterType";
-import { RosterDefinition } from "RosterDefinition";
+import { RosterType } from "./models/RosterType";
+import { RosterDefinition } from "./models/RosterDefinition";
 
 export const ROSTER_DEFINITIONS: RosterDefinition[] = [
     { key: RosterType.CleanBathroom, name: "Cleaning the bathroom" },
@@ -9,3 +9,6 @@ export const ROSTER_DEFINITIONS: RosterDefinition[] = [
     { key: RosterType.DoLaundry, name: "Doing the laundry" },
     { key: RosterType.DoShopping, name: "Doing the shopping" }
 ];
+
+export const CMD_DONE = "done";
+export const CMD_PAY = "pay";

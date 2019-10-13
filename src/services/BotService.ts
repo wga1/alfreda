@@ -1,9 +1,9 @@
-import { CallbackOption } from "CallbackOption";
-import { Context } from "Context";
-import { isBotCommand, isUserMentioned } from "../utils/telegrafUtils";
+import { InlineOption } from "../models/InlineOption";
+import { Context } from "../models/Context";
+import { isBotCommand, isUserMentioned, findBotCommand } from "../utils/telegrafUtils";
 import Telegraf, { ContextMessageUpdate } from "telegraf";
 import { ExtraReplyMessage, InlineKeyboardButton, MessageSubTypes, UpdateType } from "telegraf/typings/telegram-types";
-import { UpdateHandler } from "UpdateHandler";
+import { UpdateHandler } from "../models/UpdateHandler";
 
 const defaultHandler: UpdateHandler = { handle: () => {} };
 
@@ -15,12 +15,15 @@ export class BotService {
     private commandHandler: UpdateHandler = defaultHandler;
     private callbackHandler: UpdateHandler = defaultHandler;
 
+    private commands: string[] = [];
+
     constructor(telegramApiToken: string) {
         this.telegramApiToken = telegramApiToken;
         this.telegrafBot = new Telegraf(this.telegramApiToken);
     }
 
-    initialize() {
+    initialize(commands: string[]) {
+        this.commands = commands;
         const updateTypes: (UpdateType | MessageSubTypes)[] = ["text", "callback_query"];
         updateTypes.forEach(e => {
             const handler = this.getBaseHandler(e);
@@ -43,7 +46,6 @@ export class BotService {
 
     reply(context: Context, text: string) {
         const { telegrafCtx: ctx } = context;
-        const { message } = ctx;
 
         ctx.reply(text);
     }
@@ -51,28 +53,35 @@ export class BotService {
     replyTo(context: Context, text: string) {
         const { telegrafCtx: ctx } = context;
         const { message } = ctx;
+        const { username } = ctx.from;
 
         const replyOptions: ExtraReplyMessage = {
             reply_to_message_id: message.message_id
         };
 
-        ctx.reply(text, replyOptions);
+        ctx.reply(`${text}`, replyOptions);
     }
 
-    replyToWithCallbackOptions(context: Context, text: string, options: CallbackOption[]) {
+    replyToWithInlineOptions(context: Context, text: string, options: InlineOption[]) {
         const { telegrafCtx: ctx } = context;
-        const { message, callbackQuery } = ctx;
+        const { message } = ctx;
 
-        const optionRows: InlineKeyboardButton[][] = options.map(o => [{ text: o.text, callback_data: o.data }]);
         const replyOptions: ExtraReplyMessage = {
-            reply_markup: { inline_keyboard: optionRows, selective: true, one_time_keyboard: true },
-            reply_to_message_id:
-                (message && message.message_id) ||
-                (callbackQuery && callbackQuery.message && callbackQuery.message.message_id) ||
-                undefined
+            reply_markup: this.getInlineReplyMarkup(options),
+            reply_to_message_id: message.message_id
         };
 
-        ctx.reply(text, replyOptions);
+        ctx.reply(`${text}`, replyOptions);
+    }
+
+    editMessageWithInlineOptions(context: Context, text: string, options: InlineOption[]) {
+        const { telegrafCtx: ctx } = context;
+
+        const replyOptions: ExtraReplyMessage = {
+            reply_markup: this.getInlineReplyMarkup(options)
+        };
+
+        ctx.editMessageText(text, replyOptions);
     }
 
     private async baseHandler(updateType: string, ctx: ContextMessageUpdate, next: Function) {
@@ -132,7 +141,19 @@ export class BotService {
         const callbackData = (ctx.callbackQuery && ctx.callbackQuery.data) || undefined;
         const callbackAnswer =
             (ctx.callbackQuery && ctx.callbackQuery.id && ((text?: string) => ctx.answerCbQuery(text))) || undefined;
+        const command = findBotCommand(ctx.message);
 
-        return { telegrafCtx: ctx, text, callbackData, answerCallback: callbackAnswer };
+        return { telegrafCtx: ctx, text, callbackData, answerCallback: callbackAnswer, command };
+    }
+
+    private getInlineReplyMarkup(options: InlineOption[]) {
+        const optionRows: InlineKeyboardButton[][] = options.map(o => [
+            {
+                text: o.text,
+                callback_data: o.callbackData || undefined,
+                switch_inline_query_current_chat: o.command || undefined
+            }
+        ]);
+        return { inline_keyboard: optionRows, selective: true, one_time_keyboard: true };
     }
 }

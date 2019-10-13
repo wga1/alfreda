@@ -1,6 +1,6 @@
 import lowDb, { AdapterSync } from "lowdb";
 import LowDbFileSyncAdapter from "lowdb/adapters/FileSync";
-import { RootDb } from "RootDb";
+import { RootDb } from "../models/RootDb";
 
 class StorageService {
     private storageFile: string;
